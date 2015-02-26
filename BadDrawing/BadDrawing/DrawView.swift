@@ -10,19 +10,15 @@ import UIKit
 
 class DrawView: UIView {
   
-     var lines: [Line] = []
+    var lines: [Line] = []
     var lastPoint: CGPoint!
     var drawColor = UIColor.blackColor()
-    
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.lastPoint = (touches.anyObject() as UITouch).locationInView(self)
     }
     
-
-    
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent)  {
-
         var newPoint = (touches.anyObject() as UITouch).locationInView(self)
         self.lines.append(Line(start: self.lastPoint, end: newPoint, color: self.drawColor))
         self.lastPoint = newPoint
@@ -31,7 +27,6 @@ class DrawView: UIView {
     }
     
     override func drawRect(rect: CGRect)  {
-        
         var context = UIGraphicsGetCurrentContext()
         
         CGContextSetLineCap(context, kCGLineCapRound)
@@ -44,7 +39,6 @@ class DrawView: UIView {
             CGContextSetStrokeColorWithColor(context, line.color.CGColor)
             CGContextStrokePath(context)
         }
-        
     }
   
 }

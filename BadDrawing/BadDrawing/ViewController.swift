@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
   
-  @IBOutlet var drawView : AnyObject
+  @IBOutlet var drawView : AnyObject!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -31,9 +31,9 @@ class ViewController: UIViewController {
   @IBAction func colorTapped(button: UIButton!) {
     var theDrawView = drawView as DrawView
     var color : UIColor!
-    if (button.titleLabel.text == "Red") {
+    if button.titleLabel?.text! == "Red" {
       color = UIColor.redColor()
-    } else if (button.titleLabel.text == "Black") {
+    } else if button.titleLabel?.text! == "Black" {
       color = UIColor.blackColor()
     }
     theDrawView.drawColor = color
