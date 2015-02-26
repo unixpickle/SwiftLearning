@@ -10,37 +10,41 @@ import UIKit
 
 class DrawView: UIView {
   
-  var lines: Line[] = []
-  var lastPoint: CGPoint!
-  var drawColor = UIColor.blackColor()
-  
-  init(coder aDecoder: NSCoder!) {
-    super.init(coder: aDecoder)
-  }
-  
-  override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
-    lastPoint = touches.anyObject().locationInView(self)
-  }
-  
-  override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!)  {
-    var newPoint = touches.anyObject().locationInView(self)
-    lines.append(Line(start: lastPoint, end: newPoint, color: drawColor))
-    lastPoint = newPoint
+     var lines: [Line] = []
+    var lastPoint: CGPoint!
+    var drawColor = UIColor.blackColor()
     
-    self.setNeedsDisplay()
-  }
-  
-  override func drawRect(rect: CGRect)  {
-    var context = UIGraphicsGetCurrentContext()
-    CGContextSetLineCap(context, kCGLineCapRound)
-    CGContextSetLineWidth(context, 5)
-    for line in lines {
-      CGContextBeginPath(context)
-      CGContextMoveToPoint(context, line.startX, line.startY)
-      CGContextAddLineToPoint(context, line.endX, line.endY)
-      CGContextSetStrokeColorWithColor(context, line.color.CGColor)
-      CGContextStrokePath(context)
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.lastPoint = (touches.anyObject() as UITouch).locationInView(self)
     }
-  }
+    
+
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent)  {
+
+        var newPoint = (touches.anyObject() as UITouch).locationInView(self)
+        self.lines.append(Line(start: self.lastPoint, end: newPoint, color: self.drawColor))
+        self.lastPoint = newPoint
+        
+        self.setNeedsDisplay()
+    }
+    
+    override func drawRect(rect: CGRect)  {
+        
+        var context = UIGraphicsGetCurrentContext()
+        
+        CGContextSetLineCap(context, kCGLineCapRound)
+        CGContextSetLineWidth(context, 3)
+        
+        for line in self.lines {
+            CGContextBeginPath(context)
+            CGContextMoveToPoint(context, line.startX, line.startY)
+            CGContextAddLineToPoint(context, line.endX, line.endY)
+            CGContextSetStrokeColorWithColor(context, line.color.CGColor)
+            CGContextStrokePath(context)
+        }
+        
+    }
   
 }
